@@ -1,0 +1,32 @@
+# Ignore Node.js modules
+node_modules/
+
+# Ignore environment files
+.env
+
+# Ignore build artifacts
+dist/
+build/
+coverage/
+.nyc_output/
+
+# Ignore logs
+logs/
+
+# Ignore macOS system files
+.DS_Store
+
+# Ignore JetBrains IDE configuration
+.idea/
+
+# Ignore Visual Studio Code configuration
+.vscode/
+
+# Ignore npm debug logs
+npm-debug.log*
+
+# Ignore Yarn debug logs
+yarn-debug.log*
+
+# Ignore editor backup files
+*~
