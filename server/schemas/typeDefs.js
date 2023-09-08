@@ -12,24 +12,43 @@ const typeDefs = gql`
     id: ID!
     username: String!
     email: String!
-    # Add other user-related fields as needed
+    # Other user fields...
+    orders: [Order]!
+    cart: [Product]!
+    # Add more fields as needed
   }
 
   type Product {
     id: ID!
     name: String!
+    description: String
     price: Float!
-    category: String!
-    # Add other product-related fields as needed
+    quantity: Int!
+    # Add more fields as needed
   }
 
   type Order {
     id: ID!
     orderNumber: String!
     totalAmount: Float!
-    date: String! # You can use a custom scalar for dates if needed
-    # Add other order-related fields as needed
+    date: String!
+    user: User! # Reference to the user who placed the order
+    products: [OrderProduct]!
+    # Add more fields as needed
   }
+
+  type OrderProduct {
+    product: Product! # Reference to the product included in the order
+    quantity: Int!
+    # Add more fields related to each product in the order if needed
+  }
+
+  type AuthPayload {
+    token: String
+    user: User
+  }
+
+  
 
   type Query {
     # Query to get a list of KPIs (you can add filtering and pagination as needed)
@@ -40,9 +59,10 @@ const typeDefs = gql`
 
     # Query to get user information (authenticated route)
     getUser: User
+    getUsers: [User]!
 
     # Query to get a list of products (you can add filtering and pagination as needed)
-    getProducts: [Product]
+    getAllProducts: [Product]!
 
     # Query to get a single product by ID
     getProductById(id: ID!): Product
@@ -52,28 +72,52 @@ const typeDefs = gql`
 
     # Query to get a single order by ID
     getOrderById(id: ID!): Order
+
+    login(email: String!, password: String!): AuthPayload
+
+    getUserOrders(userId: ID!): [Order]!
+
   }
 
   type Mutation {
     # Mutation to register a new user (public route)
-    register(username: String!, email: String!, password: String!): AuthPayload
+    register(input: RegistrationInput!): AuthPayload
 
     # Mutation to log in a user (public route)
-    login(email: String!, password: String!): AuthPayload
+    login(email: String!, password: String!): AuthPayload!
 
     # Mutation to create a new product (authenticated route)
     createProduct(name: String!, price: Float!, category: String!): Product
 
-    # Mutation to create a new order (authenticated route)
-    createOrder(orderNumber: String!, totalAmount: Float!): Order
+    placeOrder(userId: ID!, products: [OrderProductInput]!, totalAmount: Float!): Order!
+
+    addToCart(userId: ID!, productId: ID!): User!
+
+    addProduct(input: ProductInput!): Product!
 
     # Add more mutations as needed (e.g., update KPI values)
   }
 
-  type AuthPayload {
-    token: String
-    user: User
+  input OrderProductInput {
+    productId: ID!
+    quantity: Int!
   }
+
+  input ProductInput {
+    name: String!
+    description: String
+    price: Float!
+    quantity: Int!
+    # Add more fields as needed for product details
+  }
+
+  input RegistrationInput {
+    username: String!
+    email: String!
+    password: String!
+  }
+  
+
 `;
 
 module.exports = typeDefs;

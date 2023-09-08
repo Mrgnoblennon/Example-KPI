@@ -1,6 +1,11 @@
 const { AuthenticationError } = require('apollo-server-express');
-const { User, KPI } = require('./models'); // Import your Mongoose models
-const { authMiddleware, signToken } = require('./auth'); // Import your custom auth functions
+const KPI = require('../models/KPI'); // Import your Mongoose models
+const User = require('../models/User');
+const Order = require('../models/Order');
+const Product = require('../models/Product');
+const { authMiddleware, signToken } = require('../utils/auth'); // Import your custom auth functions
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 const resolvers = {
   Query: {
@@ -20,6 +25,15 @@ const resolvers = {
       }
     },
 
+    getUsers: async () => {
+        try {
+          const users = await User.find();
+          return users;
+        } catch (error) {
+          throw new Error(`Failed to fetch users: ${error.message}`);
+        }
+      },
+
     // Resolver for user login (public route)
     login: async (parent, args) => {
       const { email, password } = args;
@@ -37,12 +51,31 @@ const resolvers = {
 
       return { token, user };
     },
+
+    getAllProducts: async () => {
+        try {
+          const products = await Product.find();
+          return products;
+        } catch (error) {
+          throw new Error(`Failed to fetch products: ${error.message}`);
+        }
+      },
+
+    getUserOrders: async (_, { userId }) => {
+        try {
+          // Retrieve a user's orders and populate product details
+          const orders = await Order.find({ userId }).populate('products.product');
+          return orders;
+        } catch (error) {
+          throw new Error(`Failed to fetch user orders: ${error.message}`);
+        }
+      },
   },
 
   Mutation: {
     // Resolver for user registration (public route)
-    register: async (parent, args) => {
-      const { username, email, password } = args;
+    register: async (_, { input }) => {
+      const { username, email, password } = input;
 
       // Check if a user with the provided email already exists
       const existingUser = await User.findOne({ email });
@@ -61,9 +94,72 @@ const resolvers = {
 
         return { token, user: newUser };
       } catch (error) {
-        throw new Error('Failed to register user.');
+        throw new Error('Failed to register user.', error);
       }
     },
+
+    login: async (_, { email, password }) => {
+        try {
+          // Find the user by email
+          const user = await User.findOne({ email });
+  
+          // Check if the user exists
+          if (!user) {
+            throw new Error('User not found');
+          }
+  
+          // Verify the password
+          const validPassword = await bcrypt.compare(password, user.password);
+  
+          if (!validPassword) {
+            throw new Error('Invalid password');
+          }
+  
+          // Generate a JWT token
+          const token = jwt.sign({ userId: user.id }, 'your-secret-key', { expiresIn: '2h' });
+  
+          // Return the user and token in the AuthPayload
+          return { user, token };
+        } catch (error) {
+          throw new Error(`Login failed: ${error.message}`);
+        }
+      },
+
+    addProduct: async (_, { input }) => {
+        try {
+          const newProduct = new Product(input);
+          const savedProduct = await newProduct.save();
+          return savedProduct;
+        } catch (error) {
+          throw new Error(`Failed to add product: ${error.message}`);
+        }
+      },
+
+    placeOrder: async (_, { userId, products, totalAmount }) => {
+        try {
+          // Create a new order
+          const newOrder = new Order({ userId, products, totalAmount });
+          const savedOrder = await newOrder.save();
+  
+          // Update the user's list of orders
+          const user = await User.findByIdAndUpdate(userId, { $push: { orders: savedOrder._id } });
+  
+          return savedOrder;
+        } catch (error) {
+          throw new Error(`Failed to place order: ${error.message}`);
+        }
+      },
+      
+      addToCart: async (_, { userId, productId }) => {
+        try {
+          // Add the product to the user's cart
+          const user = await User.findByIdAndUpdate(userId, { $push: { cart: productId } });
+  
+          return user;
+        } catch (error) {
+          throw new Error(`Failed to add to cart: ${error.message}`);
+        }
+      },
   },
 };
 
