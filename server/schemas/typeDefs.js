@@ -84,7 +84,7 @@ const typeDefs = gql`
     register(input: RegistrationInput!): AuthPayload
 
     # Mutation to log in a user (public route)
-    login(email: String!, password: String!): AuthPayload!
+    login(emailOrUsername: String!, password: String!): AuthPayload
 
     # Mutation to create a new product (authenticated route)
     createProduct(name: String!, price: Float!, category: String!): Product

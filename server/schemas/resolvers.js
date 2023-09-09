@@ -98,31 +98,29 @@ const resolvers = {
       }
     },
 
-    login: async (_, { email, password }) => {
-        try {
-          // Find the user by email
-          const user = await User.findOne({ email });
+    login: async (_, { emailOrUsername, password }) => {
+        // Find the user by email or username
+        const user = await User.findOne({ $or: [{ email: emailOrUsername }, { username: emailOrUsername }] });
   
-          // Check if the user exists
-          if (!user) {
-            throw new Error('User not found');
-          }
-  
-          // Verify the password
-          const validPassword = await bcrypt.compare(password, user.password);
-  
-          if (!validPassword) {
-            throw new Error('Invalid password');
-          }
-  
-          // Generate a JWT token
-          const token = jwt.sign({ userId: user.id }, 'your-secret-key', { expiresIn: '2h' });
-  
-          // Return the user and token in the AuthPayload
-          return { user, token };
-        } catch (error) {
-          throw new Error(`Login failed: ${error.message}`);
+        if (!user) {
+          throw new Error('User not found.');
         }
+  
+        // Compare the provided password with the hashed password
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+  
+        if (!isPasswordValid) {
+          throw new Error('Invalid password.');
+        }
+  
+        // Generate an authentication token for the user
+        const token = signToken(user);
+  
+        // Return the user and token
+        return {
+          user,
+          token,
+        };
       },
 
     addProduct: async (_, { input }) => {
