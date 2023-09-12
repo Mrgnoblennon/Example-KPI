@@ -23,8 +23,9 @@ const typeDefs = gql`
     name: String!
     description: String
     price: Float!
-    quantity: Int!
-    # Add more fields as needed
+    quantity: Int # Add the quantity field
+    createdBy: User! # Reference to the user who created the product
+    createdAt: String
   }
 
   type Order {
@@ -93,7 +94,7 @@ const typeDefs = gql`
 
     addToCart(userId: ID!, productId: ID!): User!
 
-    addProduct(input: ProductInput!): Product!
+    addProduct(input: ProductInput!): Product # Mutation for adding a product
 
     # Add more mutations as needed (e.g., update KPI values)
   }
@@ -103,18 +104,17 @@ const typeDefs = gql`
     quantity: Int!
   }
 
-  input ProductInput {
-    name: String!
-    description: String
-    price: Float!
-    quantity: Int!
-    # Add more fields as needed for product details
-  }
-
   input RegistrationInput {
     username: String!
     email: String!
     password: String!
+  }
+
+  input ProductInput {
+    name: String!
+    description: String
+    price: Float!
+    quantity: Int # Include quantity in the input type
   }
   
 

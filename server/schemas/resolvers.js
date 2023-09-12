@@ -123,13 +123,27 @@ const resolvers = {
         };
       },
 
-    addProduct: async (_, { input }) => {
+      addProduct: async (_, { input }, context) => {
+        // Check if the user is authenticated
+        if (!context.user) {
+          throw new Error('Authentication required to add a product');
+        }
+      
         try {
-          const newProduct = new Product(input);
-          const savedProduct = await newProduct.save();
-          return savedProduct;
+          const newProduct = new Product({
+            name: input.name,
+            description: input.description,
+            price: input.price,
+            createdBy: context.user.id, // Use context.user.id to set the createdBy field
+            quantity: input.quantity,
+          });
+      
+          // Save the product to the database
+          await newProduct.save();
+      
+          return newProduct;
         } catch (error) {
-          throw new Error(`Failed to add product: ${error.message}`);
+          throw new Error('Failed to add a product');
         }
       },
 
@@ -156,6 +170,27 @@ const resolvers = {
           return user;
         } catch (error) {
           throw new Error(`Failed to add to cart: ${error.message}`);
+        }
+      },
+
+      addProduct: async (_, { input }, { user }) => {
+        // Check if the user is authenticated
+        if (!user) {
+          throw new Error('Authentication required to add a product');
+        }
+  
+        try {
+          const newProduct = new Product({
+            name: input.name,
+            description: input.description,
+            price: input.price,
+            createdBy: user.id, // Associate the product with the authenticated user
+          });
+  
+          await newProduct.save();
+          return newProduct;
+        } catch (error) {
+          throw new Error('Failed to add a product');
         }
       },
   },
