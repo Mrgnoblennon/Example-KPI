@@ -1,10 +1,17 @@
 import React from 'react';
+import { Box, Flex, Text, Link } from '@chakra-ui/react';
 
-const Footer = () => {
-
+function Footer() {
   return (
-    <p>hello im a footer</p>
+    <Box as="footer" bg="blue.500" color="white" p={4}>
+      <Flex align="center" justify="center">
+        <Text>&copy; {new Date().getFullYear()} Your App</Text>
+        <Link href="#" ml={4} _hover={{ textDecor: 'none' }}>
+          Privacy Policy
+        </Link>
+      </Flex>
+    </Box>
   );
-};
+}
 
 export default Footer;

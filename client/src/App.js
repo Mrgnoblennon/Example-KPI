@@ -7,6 +7,7 @@ import {
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ChakraProvider } from '@chakra-ui/react';
 
 import Home from './pages/Home';
 import Signup from './pages/Signup';
@@ -14,6 +15,7 @@ import Login from './pages/Login';
 import Profile from './pages/Profile';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import Dashboard from './pages/Dashboard';
 
 // Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({
@@ -42,32 +44,38 @@ const client = new ApolloClient({
 function App() {
   return (
     <ApolloProvider client={client}>
-      <Router>
-        <div className="flex-column justify-flex-start min-100-vh">
-          <Header />
-          <div className="container">
-            <Routes>
-              <Route 
-                path="/"
-                element={<Home />}
-              />
-              <Route 
-                path="/login"
-                element={<Login />}
-              />
-              <Route 
-                path="/signup"
-                element={<Signup />}
-              />
-              <Route 
-                path="/me"
-                element={<Profile />}
-              />
-            </Routes>
+      <ChakraProvider>
+        <Router>
+          <div className="flex-column justify-flex-start min-100-vh">
+            <Header />
+            <div className="container">
+              <Routes>
+                <Route 
+                  path="/"
+                  element={<Home />}
+                />
+                <Route 
+                  path="/login"
+                  element={<Login />}
+                />
+                <Route 
+                  path="/signup"
+                  element={<Signup />}
+                />
+                <Route 
+                  path="/me"
+                  element={<Profile />}
+                />
+                <Route
+                  path="/dashboard"
+                  element={<Dashboard />}
+                />
+              </Routes>
+            </div>
+            <Footer />
           </div>
-          <Footer />
-        </div>
-      </Router>
+        </Router>
+      </ChakraProvider>
     </ApolloProvider>
   );
 }
