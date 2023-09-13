@@ -15,7 +15,7 @@ import Login from './pages/Login';
 import Profile from './pages/Profile';
 import Dashboard from './pages/Dashboard';
 import Catalog from './pages/Catalog';
-import Inventory from './pages/Iventory'
+import Inventory from './pages/Inventory'
 import Header from './components/Header';
 import Footer from './components/Footer';
 

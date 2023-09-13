@@ -9,6 +9,7 @@ import {
 } from '@chakra-ui/react';
 import { useMutation } from '@apollo/client';
 import { LOGIN_USER } from '../utils/mutations'; // Import your login mutation
+import AuthService from '../utils/auth';
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -32,6 +33,8 @@ function Login() {
 
       // Handle success, e.g., redirect the user or show a success message
       console.log('Login successful:', data);
+
+      AuthService.login(data.login.token);
 
     } catch (error) {
       // Handle error, e.g., display an error message to the user
