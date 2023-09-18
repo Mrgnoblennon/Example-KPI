@@ -6,6 +6,7 @@ import {
   FormLabel,
   Input,
   Button,
+  Text
 } from '@chakra-ui/react';
 import { useMutation } from '@apollo/client';
 import { LOGIN_USER } from '../utils/mutations'; // Import your login mutation
@@ -84,6 +85,9 @@ function Login() {
         >
           Login
         </Button>
+        <Text mt={2} fontSize="sm" color="gray.500">
+          Don't have an account? <a href="/signup">Sign up</a>
+        </Text>
       </form>
     </Box>
   );

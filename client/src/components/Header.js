@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Flex, Link, Text, Button, Spacer, Menu, MenuButton, MenuList, MenuItem, IconButton } from "@chakra-ui/react";
+import { Box, Flex, Link, Text, Button, Spacer, Menu, MenuButton, MenuList, MenuItem, IconButton, Avatar} from "@chakra-ui/react";
 import { HamburgerIcon } from '@chakra-ui/icons';
 import AuthService from '../utils/auth'; // Import your AuthService
 
@@ -14,7 +14,7 @@ function Header() {
   };
 
   const isAuthenticated = AuthService.loggedIn(); // Check if the user is authenticated
-  const username = isAuthenticated ? AuthService.getProfile().username : null;
+  const username = isAuthenticated ? AuthService.getProfile().data.username : null;
 
   return (
     <Box as="header" bg="green.500" color="white" p={4}>
@@ -27,11 +27,6 @@ function Header() {
         <Spacer />
         {!isAuthenticated && ( // Render "Sign Up" and "Login" buttons when not authenticated
           <>
-            <Link href="/signup">
-              <Button colorScheme="white" variant="outline" mr={4}>
-                Sign Up
-              </Button>
-            </Link>
             <Link href="/login">
               <Button colorScheme="white" variant="outline" mr={4}>
                 Login
@@ -44,9 +39,14 @@ function Header() {
         <Text color="white" mr={2}>
           Welcome, {username}!
         </Text>
-        <Button colorScheme="white" variant="outline" onClick={handleLogout}>
-          Log Out
-        </Button>
+        <Link to="/profile">
+          <Avatar
+            name="User's Name"
+            src="URL_TO_USER_AVATAR_IMAGE"
+            size="md" // Adjust the size as needed
+            cursor="pointer" // Add a pointer cursor to indicate it's clickable
+          />
+        </Link>
       </>
         )}
         
@@ -62,6 +62,11 @@ function Header() {
       <MenuList placement="right"> {/* Set the placement to right */}
         <MenuItem color="black" as='a' href='#'>About</MenuItem>
         <MenuItem color="black" as='a' href='#'>Link 2</MenuItem>
+        {isAuthenticated && (
+          <>
+          <MenuItem onClick={handleLogout} color="black" as='a'>Logout</MenuItem>
+          </>
+        )}
       </MenuList>
     </Menu>
 
