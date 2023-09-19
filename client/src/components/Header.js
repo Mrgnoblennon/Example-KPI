@@ -39,7 +39,7 @@ function Header() {
         <Text color="white" mr={2}>
           Welcome, {username}!
         </Text>
-        <Link to="/profile">
+        <Link href="/profile">
           <Avatar
             name="User's Name"
             src="URL_TO_USER_AVATAR_IMAGE"

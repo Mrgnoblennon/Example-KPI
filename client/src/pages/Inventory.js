@@ -1,10 +1,39 @@
 import React from 'react';
+import { useQuery } from '@apollo/client';
+import { Box, Text, Grid, GridItem } from '@chakra-ui/react';
+import { GET_ALL_PRODUCTS } from '../utils/queries';
+import ProductCard from '../components/ProductCard';
 
 const Inventory = () => {
+  const { loading, error, data } = useQuery(GET_ALL_PRODUCTS);
+
+  console.log('data:', data); // Add this line for debugging
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>Error: {error.message}</p>;
+  }
+
+  const products = data.getAllProducts;
+
+  console.log('products:', products); // Add this line for debugging
 
   return (
-    <p>Build an inventory management system to track stock levels of different products, including beers and other beverages.
-    Implement functionality to add new products to the inventory and update quantities as items are sold or restocked.</p>
+    <Box p={4}>
+      <Text fontSize="2xl" fontWeight="bold" mb={4}>
+        Inventory
+      </Text>
+      <Grid templateColumns="repeat(auto-fill, minmax(300px, 1fr))" gap={4}>
+        {products.map((product) => (
+          <GridItem key={product._id}>
+            <ProductCard product={product} />
+          </GridItem>
+        ))}
+      </Grid>
+    </Box>
   );
 };
 
