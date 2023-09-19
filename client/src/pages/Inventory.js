@@ -1,7 +1,8 @@
 import React from 'react';
-import { useQuery } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import { Box, Text, Grid, GridItem } from '@chakra-ui/react';
 import { GET_ALL_PRODUCTS } from '../utils/queries';
+import { ADD_PRODUCT } from '../utils/mutations';
 import ProductCard from '../components/ProductCard';
 
 const Inventory = () => {

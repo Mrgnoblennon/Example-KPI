@@ -17,7 +17,22 @@ const ProductCard = ({ product }) => {
       <Box mt="2">
         <Heading fontSize="xl">{product.name}</Heading>
         <Text fontSize="md" color="gray.600">
-          {product.description}
+          Description: {product.description}
+        </Text>
+        <Text fontSize="md" color="gray.600">
+          Price: ${product.price}
+        </Text>
+        <Text fontSize="md" color="gray.600">
+          Quantity: {product.quantity}
+        </Text>
+        <Text fontSize="md" color="gray.600">
+          Category: {product.category}
+        </Text>
+        <Text fontSize="md" color="gray.600">
+          Created By: {product.createdBy}
+        </Text>
+        <Text fontSize="md" color="gray.600">
+          Created At: {new Date(product.createdAt).toLocaleDateString()}
         </Text>
       </Box>
 
