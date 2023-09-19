@@ -136,6 +136,7 @@ const resolvers = {
             price: input.price,
             createdBy: context.user.id, // Use context.user.id to set the createdBy field
             quantity: input.quantity,
+            category: input.category, // Add the category field
           });
       
           // Save the product to the database

@@ -64,6 +64,7 @@ function Header() {
         <MenuItem color="black" as='a' href='#'>Link 2</MenuItem>
         {isAuthenticated && (
           <>
+          <MenuItem color="black" as='a' href='/inventory'>Inventory</MenuItem>
           <MenuItem onClick={handleLogout} color="black" as='a'>Logout</MenuItem>
           </>
         )}

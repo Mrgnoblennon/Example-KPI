@@ -21,10 +21,11 @@ const typeDefs = gql`
   type Product {
     id: ID!
     name: String!
-    description: String
+    description: String!
     price: Float!
     quantity: Int # Add the quantity field
     createdBy: User! # Reference to the user who created the product
+    category: String!
     createdAt: String
   }
 
@@ -109,12 +110,13 @@ const typeDefs = gql`
     email: String!
     password: String!
   }
-
+  
   input ProductInput {
     name: String!
     description: String
     price: Float!
-    quantity: Int # Include quantity in the input type
+    quantity: Int
+    category: String # Include the category field
   }
   
 

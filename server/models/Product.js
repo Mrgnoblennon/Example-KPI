@@ -5,7 +5,10 @@ const productSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  description: String,
+  description: {
+    type: String,
+    required: true,
+  },
   price: {
     type: Number,
     required: true,
@@ -18,6 +21,10 @@ const productSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User', // Reference to the User model (assuming a User model exists)
     required: true,
+  },
+  category: {
+    type: String, // You can adjust the data type (e.g., String, Array) based on your needs
+    required: true, // Make this field required if every product must have a category
   },
   createdAt: {
     type: Date,
