@@ -20,7 +20,6 @@ const productSchema = new mongoose.Schema({
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User', // Reference to the User model (assuming a User model exists)
-    required: true,
   },
   category: {
     type: String, // You can adjust the data type (e.g., String, Array) based on your needs

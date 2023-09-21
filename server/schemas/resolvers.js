@@ -35,22 +35,22 @@ const resolvers = {
       },
 
     // Resolver for user login (public route)
-    login: async (parent, args) => {
-      const { email, password } = args;
+    // login: async (parent, args) => {
+    //  const { email, password } = args;
 
-      // Authenticate the user based on your custom logic
-      // (e.g., check credentials, compare hashed passwords)
-      const user = await User.findOne({ email });
+    //  // Authenticate the user based on your custom logic
+    //  // (e.g., check credentials, compare hashed passwords)
+    //  const user = await User.findOne({ email });
 
-      if (!user) {
-        throw new AuthenticationError('Invalid credentials.');
-      }
+    //  if (!user) {
+    //    throw new AuthenticationError('Invalid credentials.');
+    //  }
 
-      // Use your custom auth function to sign a token for the user
-      const token = signToken(user);
+    //  // Use your custom auth function to sign a token for the user
+    //  const token = signToken(user);
 
-      return { token, user };
-    },
+    //  return { token, user };
+    //},
 
     getAllProducts: async () => {
         try {
@@ -124,17 +124,18 @@ const resolvers = {
       },
 
       addProduct: async (_, { input }, context) => {
-        // Check if the user is authenticated
-        if (!context.user) {
-          throw new Error('Authentication required to add a product');
-        }
-      
         try {
+          // Check if the user is authenticated
+          if (!context.user) {
+            throw new Error('Authentication required to add a product');
+          }
+          
+          console.log('Authenticated User:');
           const newProduct = new Product({
             name: input.name,
             description: input.description,
             price: input.price,
-            createdBy: context.user.id, // Use context.user.id to set the createdBy field
+            createdBy: context.user.username, // Use context.user.id to set the createdBy field
             quantity: input.quantity,
             category: input.category, // Add the category field
           });
@@ -142,11 +143,18 @@ const resolvers = {
           // Save the product to the database
           await newProduct.save();
       
+          // Add a log to indicate successful product creation
+          console.log('Product added successfully:', newProduct);
+      
           return newProduct;
         } catch (error) {
+          // Log the error for debugging purposes
+          console.error('Error adding a product:', error);
+      
           throw new Error('Failed to add a product');
         }
       },
+      
 
     placeOrder: async (_, { userId, products, totalAmount }) => {
         try {
@@ -174,26 +182,26 @@ const resolvers = {
         }
       },
 
-      addProduct: async (_, { input }, { user }) => {
-        // Check if the user is authenticated
-        if (!user) {
-          throw new Error('Authentication required to add a product');
-        }
-  
-        try {
-          const newProduct = new Product({
-            name: input.name,
-            description: input.description,
-            price: input.price,
-            createdBy: user.id, // Associate the product with the authenticated user
-          });
-  
-          await newProduct.save();
-          return newProduct;
-        } catch (error) {
-          throw new Error('Failed to add a product');
-        }
-      },
+//      addProduct: async (_, { input }, { user }) => {
+//        // Check if the user is authenticated
+//        if (!user) {
+//          throw new Error('Authentication required to add a product');
+//        }
+//  
+//        try {
+//          const newProduct = new Product({
+//            name: input.name,
+//            description: input.description,
+//            price: input.price,
+//            createdBy: user.id, // Associate the product with the authenticated user
+//          });
+//  
+//          await newProduct.save();
+//          return newProduct;
+//        } catch (error) {
+//          throw new Error('Failed to add a product');
+//        }
+//      },
   },
 };
 

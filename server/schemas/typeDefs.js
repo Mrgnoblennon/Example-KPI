@@ -24,7 +24,7 @@ const typeDefs = gql`
     description: String!
     price: Float!
     quantity: Int # Add the quantity field
-    createdBy: User! # Reference to the user who created the product
+    createdBy: User # Reference to the user who created the product
     category: String!
     createdAt: String
   }
@@ -75,7 +75,6 @@ const typeDefs = gql`
     # Query to get a single order by ID
     getOrderById(id: ID!): Order
 
-    login(email: String!, password: String!): AuthPayload
 
     getUserOrders(userId: ID!): [Order]!
 

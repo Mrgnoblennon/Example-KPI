@@ -28,20 +28,18 @@ export const LOGIN_USER = gql`
 `;
 
 export const ADD_PRODUCT = gql`
-  mutation AddProduct($input: ProductInput!) {
-    addProduct(input: $input) {
-      id
-      name
-      description
-      price
-      quantity
-      createdBy {
-        id
-        username
-        email
-      }
-      category
-      createdAt
+mutation AddProduct($input: ProductInput!) {
+  addProduct(input: $input) {
+    id
+    name
+    description
+    price
+    quantity
+    category
+    createdBy {
+      username
     }
+    createdAt
   }
-`
+}
+`;
