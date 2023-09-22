@@ -6,12 +6,13 @@ import { REGISTER_USER } from '../utils/mutations'; // Import your GraphQL mutat
 function Signup() {
   const [formData, setFormData] = useState({
     username: '',
+    firstName: '',
+    lastName: '',
     email: '',
     password: '',
   });
 
   const [registerUser] = useMutation(REGISTER_USER);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -44,6 +45,14 @@ function Signup() {
         <FormControl id="username" mb={4}>
           <FormLabel>Username</FormLabel>
           <Input type="text" name="username" value={formData.username} onChange={handleChange} required />
+        </FormControl>
+        <FormControl id="firstName" mb={4}>
+          <FormLabel>First Name</FormLabel>
+          <Input type="text" name="firstName" value={formData.firstName} onChange={handleChange} required />
+        </FormControl>
+        <FormControl id="lastName" mb={4}>
+          <FormLabel>Last Name</FormLabel>
+          <Input type="text" name="lastName" value={formData.lastName} onChange={handleChange} required />
         </FormControl>
         <FormControl id="email" mb={4}>
           <FormLabel>Email</FormLabel>
