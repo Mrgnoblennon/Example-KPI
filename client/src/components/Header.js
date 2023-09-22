@@ -2,14 +2,16 @@ import React from 'react';
 import { Box, Flex, Link, Text, Button, Spacer, Menu, MenuButton, MenuList, MenuItem, IconButton, Avatar} from "@chakra-ui/react";
 import { HamburgerIcon } from '@chakra-ui/icons';
 import AuthService from '../utils/auth'; // Import your AuthService
+import { useNavigate } from 'react-router-dom';
 
 function Header() {
+  const navigate = useNavigate();
   // Placeholder function for logging out
   const handleLogout = () => {
+    
     // Implement your logout logic here
     AuthService.logout(); // Call your logout method, e.g., AuthService.logout()
-
-    // Force a page reload to reflect the user's logged-out status
+    navigate('/');
     window.location.reload();
   };
 
@@ -39,7 +41,7 @@ function Header() {
         <Text color="white" mr={2}>
           Welcome, {username}!
         </Text>
-        <Link href="/profile">
+        <Link href="/me">
           <Avatar
             name="User's Name"
             src="URL_TO_USER_AVATAR_IMAGE"
@@ -61,7 +63,7 @@ function Header() {
       />
       <MenuList placement="right"> {/* Set the placement to right */}
         <MenuItem color="black" as='a' href='#'>About</MenuItem>
-        <MenuItem color="black" as='a' href='#'>Link 2</MenuItem>
+        <MenuItem color="black" as='a' href='#'>Settings</MenuItem>
         {isAuthenticated && (
           <>
           <MenuItem color="black" as='a' href='/inventory'>Inventory</MenuItem>
