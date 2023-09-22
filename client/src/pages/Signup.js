@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
-import { Box, Heading, FormControl, FormLabel, Input, Button } from '@chakra-ui/react';
+import { Box, Text, Heading, FormControl, FormLabel, Input, Button } from '@chakra-ui/react';
 import { REGISTER_USER } from '../utils/mutations'; // Import your GraphQL mutation
 
 function Signup() {
@@ -56,6 +56,9 @@ function Signup() {
         <Button type="submit" colorScheme="teal" size="lg">
           Sign Up
         </Button>
+        <Text mt={2} fontSize="sm" color="gray.500">
+          Already have an account? <a href="/signup">Login</a>
+        </Text>
       </form>
     </Box>
   );

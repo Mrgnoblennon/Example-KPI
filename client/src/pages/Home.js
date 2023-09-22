@@ -30,10 +30,10 @@ function HomePage() {
       {/* Hero section */}
       <Box bg="blue.500" color="white" py={10} textAlign="center">
         <Heading as="h1" size="xl" mb={4}>
-          Welcome to Our Online Store
+          Welcome to a visual representation
         </Heading>
         <Text fontSize="lg">
-          Discover the best deals on a wide range of products.
+          Discover any buisness flaws.
         </Text>
       </Box>
 
