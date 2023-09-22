@@ -4,6 +4,13 @@ const mongoose = require('./config/connection'); // Import your Mongoose connect
 const typeDefs = require('./schemas/typeDefs'); // Import your GraphQL type definitions
 const resolvers = require('./schemas/resolvers'); // Import your GraphQL resolvers
 const { authMiddleware } = require('./utils/auth');
+const cloudinary = require('cloudinary').v2;
+
+cloudinary.config({ 
+  cloud_name: 'dwzlmgxqp', 
+  api_key: '395955317297778', 
+  api_secret: '***************************' 
+});
 
 const app = express();
 
@@ -30,7 +37,7 @@ async function startServer() {
   server.applyMiddleware({ app });
 
   // Start your Express app
-  const port = process.env.PORT || 3001;
+  const port = process.env.PORT || 3002;
   app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}${server.graphqlPath}`);
   });
