@@ -75,7 +75,7 @@ const resolvers = {
   Mutation: {
     // Resolver for user registration (public route)
     register: async (_, { input }) => {
-      const { username, email, password } = input;
+      const { username, firstName, lastName, email, password } = input;
 
       // Check if a user with the provided email already exists
       const existingUser = await User.findOne({ email });
@@ -85,7 +85,7 @@ const resolvers = {
       }
 
       // Create a new user based on your data model
-      const newUser = new User({ username, email, password });
+      const newUser = new User({ username, firstName, lastName, email, password });
 
       try {
         // Hash the user's password before saving it

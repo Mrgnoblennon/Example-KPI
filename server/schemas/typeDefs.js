@@ -11,7 +11,10 @@ const typeDefs = gql`
   type User {
     id: ID!
     username: String!
+    firstName: String!
+    lastName: String!
     email: String!
+    profilePicture: String
     # Other user fields...
     orders: [Order]!
     cart: [Product]!
@@ -106,6 +109,8 @@ const typeDefs = gql`
 
   input RegistrationInput {
     username: String!
+    firstName: String!
+    lastName: String!
     email: String!
     password: String!
   }
