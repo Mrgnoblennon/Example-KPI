@@ -5,7 +5,8 @@ export const REGISTER_USER = gql`
     register(input: $input) {
       user {
         id
-        username
+        firstName
+        lastName
         email
       }
       token
@@ -14,12 +15,13 @@ export const REGISTER_USER = gql`
 `;
 
 export const LOGIN_USER = gql`
-  mutation LoginUser($emailOrUsername: String!, $password: String!) {
-    login(emailOrUsername: $emailOrUsername, password: $password) {
+  mutation LoginUser($email: String!, $password: String!) {
+    login(email : $email, password: $password) {
       token
       user {
         id
-        username
+        firstName
+        lastName
         email
         
       }

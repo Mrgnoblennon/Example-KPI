@@ -14,7 +14,7 @@ import AuthService from '../utils/auth';
 
 function Login() {
   const [formData, setFormData] = useState({
-    emailOrUsername: '',
+    email: '',
     password: '',
   });
 
@@ -57,12 +57,12 @@ function Login() {
         Login
       </Heading>
       <form onSubmit={handleSubmit}>
-        <FormControl id="emailOrUsername" isRequired>
-          <FormLabel>Email or Username</FormLabel>
+        <FormControl id="email" isRequired>
+          <FormLabel>Email</FormLabel>
           <Input
             type="text"
-            name="emailOrUsername"
-            value={formData.emailOrUsername}
+            name="email"
+            value={formData.email}
             onChange={handleChange}
             autoComplete="off"
           />
