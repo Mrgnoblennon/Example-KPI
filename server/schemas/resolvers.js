@@ -98,9 +98,9 @@ const resolvers = {
       }
     },
 
-    login: async (_, { emailOrUsername, password }) => {
+    login: async (_, { email, password }) => {
         // Find the user by email or username
-        const user = await User.findOne({ $or: [{ email: emailOrUsername }, { username: emailOrUsername }] });
+        const user = await User.findOne({ email });
   
         if (!user) {
           throw new Error('User not found.');
